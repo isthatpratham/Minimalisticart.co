@@ -80,7 +80,8 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden absolute w-full top-full left-0 border-t border-b border-black/5 dark:border-white/5 bg-brand-light dark:bg-brand-dark shadow-2xl"
+            className="md:hidden overflow-hidden absolute w-full top-full left-0 border-t border-b border-black/5 dark:border-white/5 bg-brand-light dark:bg-brand-dark shadow-2xl gpu-accelerated"
+            transition={{ type: "spring", bounce: 0, duration: 0.4 }}
           >
             <div className="px-6 py-6 space-y-6 flex flex-col">
               <a href="#gallery" onClick={(e) => handleScroll(e, 'gallery')} className="text-lg font-serif hover:text-brand-accent transition-colors">Gallery</a>

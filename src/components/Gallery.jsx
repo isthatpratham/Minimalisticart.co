@@ -108,12 +108,12 @@ const Gallery = () => {
             {filteredArtworks.map((art) => (
               <motion.div
                 layout
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 key={art.id}
-                className="group cursor-pointer"
+                className="group cursor-pointer gpu-accelerated"
                 onClick={() => setSelectedArt(art)}
               >
                 {/* Artwork Card */}
@@ -175,9 +175,9 @@ const Gallery = () => {
             <div className="absolute inset-0 bg-brand-light/80 dark:bg-brand-dark/80 backdrop-blur-xl" onClick={() => setSelectedArt(null)}></div>
             
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="relative w-full max-w-5xl bg-brand-light dark:bg-brand-dark border border-brand-dark/10 dark:border-brand-light/10 shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative w-full max-w-5xl bg-brand-light dark:bg-brand-dark border border-brand-dark/10 dark:border-brand-light/10 shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] gpu-accelerated"
             >
               <button 
                 onClick={() => setSelectedArt(null)}

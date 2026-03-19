@@ -7,7 +7,7 @@ const Hero = () => {
       {/* Hero Content Overlay */}
       <div className="absolute inset-0 z-10 flex items-center justify-center bg-brand-dark/20 dark:bg-brand-dark/40 overflow-hidden">
         <motion.div 
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 gpu-accelerated"
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 10, ease: "linear" }}

@@ -19,6 +19,9 @@
     background-color: var(--color-brand-light);
     color: var(--color-brand-dark);
     font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   .dark body {
     background-color: var(--color-brand-dark);
@@ -27,5 +30,15 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
+  }
+
+  /* Optimize performance for interactive elements on mobile */
+  a, button, [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* Utility class for GPU accelerated animations */
+  .gpu-accelerated {
+    will-change: transform, opacity;
   }
 }
