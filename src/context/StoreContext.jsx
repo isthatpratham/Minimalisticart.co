@@ -12,19 +12,16 @@ export const StoreProvider = ({ children }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data: catData, error: catError } = await supabase
-        .from('categories')
-        .select('*');
-      
-      const { data: prodData, error: prodError } = await supabase
-        .from('products')
-        .select('*');
+      const [catRes, prodRes] = await Promise.all([
+        supabase.from('categories').select('*'),
+        supabase.from('products').select('*')
+      ]);
 
-      if (catError) throw catError;
-      if (prodError) throw prodError;
+      if (catRes.error) throw catRes.error;
+      if (prodRes.error) throw prodRes.error;
 
-      setCategories(catData || []);
-      setProducts(prodData || []);
+      setCategories(catRes.data || []);
+      setProducts(prodRes.data || []);
     } catch (err) {
       console.error('Error fetching data from Supabase:', err.message);
     } finally {

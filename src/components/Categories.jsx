@@ -9,19 +9,19 @@ const Categories = () => {
   const defaultCategories = [
     {
       id: 1,
-      name: 'Crochet Keychain',
+      name: 'Keychains',
       description: 'Handcrafted miniature art for your daily essentials.',
       image_url: '/keychain1.jpeg'
     },
     {
       id: 2,
-      name: 'Crochet Mufflers',
+      name: 'Mufflers',
       description: 'Elegant warmth woven with precision and care.',
       image_url: '/muffler1.jpeg'
     },
     {
       id: 3,
-      name: 'Flower Bouquets',
+      name: 'Bouquets',
       description: 'Everlasting blooms for intentional gifting.',
       image_url: '/boquet1.jpeg'
     }
