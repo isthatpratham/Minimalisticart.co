@@ -22,15 +22,14 @@ const Gallery = () => {
     { id: 6, name: 'Twilight Bouquet', category: 'BOUQUETS', price: 1199, description: 'Deep purples and lavender.', image_url: '/boquet2.jpeg' },
     { id: 7, name: 'Charcoal Keychain', category: 'KEYCHAINS', price: 599, description: 'Dark minimalist aesthetic.', image_url: '/keychain3.jpeg' },
     { id: 8, name: 'Snowdrift Muffler', category: 'MUFFLERS', price: 1399, description: 'Pure white chunky knit.', image_url: '/mufler3.jpeg' },
-    { id: 9, name: 'Radiant Bouquet', category: 'BOUQUETS', price: 1099, description: 'Vibrant mixed wild flowers.', image_url: '/boquet3.jpeg' },
-    { id: 10, name: 'Artisan Wall Hanging', category: 'ART PIECES', price: 2499, description: 'Intricate macramé wall decor.', image_url: '/gallery_2.png' }
+    { id: 9, name: 'Radiant Bouquet', category: 'BOUQUETS', price: 1099, description: 'Vibrant mixed wild flowers.', image_url: '/boquet3.jpeg' }
   ];
 
   const displayArtworks = products.length > 0 ? products : defaultArtworks;
   
   const displayCategories = storeCategories.length > 0 
     ? ['ALL', ...storeCategories.map(c => c.name.toUpperCase())]
-    : ['ALL', 'BOUQUETS', 'KEYCHAINS', 'MUFFLERS', 'ART PIECES'];
+    : ['ALL', 'BOUQUETS', 'KEYCHAINS', 'MUFFLERS'];
 
   const filteredArtworks = displayArtworks.filter(art => {
     // Determine category name
