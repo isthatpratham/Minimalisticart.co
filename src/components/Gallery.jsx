@@ -14,15 +14,15 @@ const Gallery = () => {
   }, [activeFilter]);
 
   const defaultArtworks = [
-    { id: 1, name: 'Minimalist Keychain', category: 'KEYCHAINS', price: 499, description: 'Single loop cotton stitch.', image_url: '/keychain1.jpeg' },
-    { id: 2, name: 'Cloud Muffler', category: 'MUFFLERS', price: 1299, description: 'Super soft merino wool blend.', image_url: '/muffler1.jpeg' },
+    { id: 1, name: 'Minimalist Keychain', category: 'KEYCHAINS', price: 249, description: 'Single loop cotton stitch.', image_url: '/keychain1.jpeg' },
+    { id: 2, name: 'Cloud Muffler', category: 'MUFFLERS', price: 899, description: 'Super soft merino wool blend.', image_url: '/muffler1.jpeg' },
     { id: 3, name: 'Sunbeam Bouquet', category: 'BOUQUETS', price: 999, description: 'Yellow roses and white lilies.', image_url: '/boquet1.jpeg' },
-    { id: 4, name: 'Ocean Mist Keychain', category: 'KEYCHAINS', price: 549, description: 'Sea-foam green with small pearls.', image_url: '/keychain2.jpeg' },
-    { id: 5, name: 'Sandbar Muffler', category: 'MUFFLERS', price: 1499, description: 'Earthy beige tones.', image_url: '/mufler2.jpeg' },
-    { id: 6, name: 'Twilight Bouquet', category: 'BOUQUETS', price: 1199, description: 'Deep purples and lavender.', image_url: '/boquet2.jpeg' },
-    { id: 7, name: 'Charcoal Keychain', category: 'KEYCHAINS', price: 599, description: 'Dark minimalist aesthetic.', image_url: '/keychain3.jpeg' },
-    { id: 8, name: 'Snowdrift Muffler', category: 'MUFFLERS', price: 1399, description: 'Pure white chunky knit.', image_url: '/mufler3.jpeg' },
-    { id: 9, name: 'Radiant Bouquet', category: 'BOUQUETS', price: 1099, description: 'Vibrant mixed wild flowers.', image_url: '/boquet3.jpeg' }
+    { id: 4, name: 'Ocean Mist Keychain', category: 'KEYCHAINS', price: 249, description: 'Sea-foam green with small pearls.', image_url: '/keychain2.jpeg' },
+    { id: 5, name: 'Sandbar Muffler', category: 'MUFFLERS', price: 899, description: 'Earthy beige tones.', image_url: '/mufler2.jpeg' },
+    { id: 6, name: 'Twilight Bouquet', category: 'BOUQUETS', price: 999, description: 'Deep purples and lavender.', image_url: '/boquet2.jpeg' },
+    { id: 7, name: 'Charcoal Keychain', category: 'KEYCHAINS', price: 249, description: 'Dark minimalist aesthetic.', image_url: '/keychain3.jpeg' },
+    { id: 8, name: 'Snowdrift Muffler', category: 'MUFFLERS', price: 899, description: 'Pure white chunky knit.', image_url: '/mufler3.jpeg' },
+    { id: 9, name: 'Radiant Bouquet', category: 'BOUQUETS', price: 999, description: 'Vibrant mixed wild flowers.', image_url: '/boquet3.jpeg' }
   ];
 
   const displayArtworks = products.length > 0 ? products : defaultArtworks;
