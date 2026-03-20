@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, ShoppingBag } from 'lucide-react';
+import { Search, X, ShoppingBag, ChevronDown } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 
 const Gallery = () => {
   const { products, categories: storeCategories, loading, activeFilter, setActiveFilter } = useStore();
   const [search, setSearch] = useState('');
   const [selectedArt, setSelectedArt] = useState(null);
+  const [isOthersOpen, setIsOthersOpen] = useState(false);
   const INITIAL_COUNT = 6;
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
 
@@ -14,6 +15,7 @@ const Gallery = () => {
   React.useEffect(() => {
     setSearch('');
     setVisibleCount(INITIAL_COUNT);
+    setIsOthersOpen(false);
   }, [activeFilter]);
 
   // Reset pagination when search changes
@@ -35,9 +37,13 @@ const Gallery = () => {
 
   const displayArtworks = products.length > 0 ? products : defaultArtworks;
   
-  const displayCategories = storeCategories.length > 0 
+  const allCategories = storeCategories.length > 0 
     ? ['ALL', ...storeCategories.map(c => c.name.toUpperCase())]
     : ['ALL', 'BOUQUETS', 'KEYCHAINS', 'MUFFLERS'];
+
+  const MAX_VISIBLE = 5; // ALL + 4
+  const visibleCategories = allCategories.slice(0, MAX_VISIBLE);
+  const otherCategories = allCategories.slice(MAX_VISIBLE);
 
   const filteredArtworks = displayArtworks.filter(art => {
     // Determine category name
@@ -91,8 +97,8 @@ const Gallery = () => {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex flex-wrap justify-center gap-2">
-              {displayCategories.map(cat => (
+            <div className="flex flex-wrap justify-center gap-2 relative">
+              {visibleCategories.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveFilter(cat)}
@@ -105,6 +111,55 @@ const Gallery = () => {
                   {cat}
                 </button>
               ))}
+
+              {otherCategories.length > 0 && (
+                <div className="relative group">
+                  <button
+                    onClick={() => setIsOthersOpen(!isOthersOpen)}
+                    className={`px-4 py-2 text-xs uppercase tracking-widest rounded-full transition-all border flex items-center gap-2 ${
+                      otherCategories.includes(activeFilter)
+                        ? 'border-brand-dark bg-brand-dark text-brand-light dark:border-brand-light dark:bg-brand-light dark:text-brand-dark' 
+                        : 'border-brand-dark/10 dark:border-brand-light/10 text-brand-dark/60 dark:text-brand-light/60 hover:border-brand-dark/40 dark:hover:border-brand-light/40'
+                    }`}
+                  >
+                    <span>Others</span>
+                    <ChevronDown size={12} className={`transition-transform duration-300 ${isOthersOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {isOthersOpen && (
+                      <>
+                        <div className="fixed inset-0 z-[60]" onClick={() => setIsOthersOpen(false)}></div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          className="absolute right-0 top-full mt-2 z-[70] bg-brand-light dark:bg-brand-dark border border-brand-dark/10 dark:border-brand-light/10 shadow-2xl p-2 min-w-[160px] rounded-2xl overflow-hidden"
+                        >
+                          <div className="flex flex-col gap-1">
+                            {otherCategories.map(cat => (
+                              <button
+                                key={cat}
+                                onClick={() => {
+                                  setActiveFilter(cat);
+                                  setIsOthersOpen(false);
+                                }}
+                                className={`px-4 py-3 text-[10px] uppercase tracking-[0.2em] text-left transition-colors rounded-xl ${
+                                  activeFilter === cat 
+                                    ? 'bg-brand-dark/5 dark:bg-brand-light/5 text-brand-accent font-semibold' 
+                                    : 'hover:bg-brand-dark/5 dark:hover:bg-brand-light/5 text-brand-dark/60 dark:text-brand-light/60'
+                                }`}
+                              >
+                                {cat}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
             </div>
 
           </div>
