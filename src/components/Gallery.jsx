@@ -7,11 +7,19 @@ const Gallery = () => {
   const { products, categories: storeCategories, loading, activeFilter, setActiveFilter } = useStore();
   const [search, setSearch] = useState('');
   const [selectedArt, setSelectedArt] = useState(null);
+  const INITIAL_COUNT = 6;
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
 
-  // Clear search when filter changes
+  // Clear search and reset pagination when filter changes
   React.useEffect(() => {
     setSearch('');
+    setVisibleCount(INITIAL_COUNT);
   }, [activeFilter]);
+
+  // Reset pagination when search changes
+  React.useEffect(() => {
+    setVisibleCount(INITIAL_COUNT);
+  }, [search]);
 
   const defaultArtworks = [
     { id: 1, name: 'Minimalist Keychain', category: 'KEYCHAINS', price: 249, description: 'Single loop cotton stitch.', image_url: '/keychain1.jpeg' },
@@ -105,7 +113,7 @@ const Gallery = () => {
         {/* Gallery Grid */}
         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           <AnimatePresence>
-            {filteredArtworks.map((art) => (
+            {filteredArtworks.slice(0, visibleCount).map((art) => (
               <motion.div
                 layout
                 initial={{ opacity: 0, scale: 0.98 }}
@@ -154,6 +162,20 @@ const Gallery = () => {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* Explore More Button */}
+        {filteredArtworks.length > visibleCount && (
+          <div className="mt-20 flex justify-center">
+            <button
+              onClick={() => setVisibleCount(prev => prev + 6)}
+              className="px-12 py-4 border border-brand-dark/20 dark:border-brand-light/20 text-[10px] tracking-[0.4em] uppercase font-medium hover:border-brand-dark dark:hover:border-brand-light transition-all duration-500 group relative overflow-hidden"
+            >
+              <span className="relative z-10">Explore More</span>
+              <div className="absolute inset-0 bg-brand-dark dark:bg-brand-light translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              <span className="absolute inset-0 z-20 flex items-center justify-center text-brand-light dark:text-brand-dark translate-y-full group-hover:translate-y-0 transition-transform duration-500">Explore More</span>
+            </button>
+          </div>
+        )}
 
         {filteredArtworks.length === 0 && (
           <div className="py-24 text-center text-brand-dark/50 dark:text-brand-light/50 font-light">
