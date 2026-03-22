@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { supabase } from '../../lib/supabase';
 import { motion } from 'framer-motion';
-import { Plus, Trash2, Edit2, Upload, LogOut, ChevronLeft, X } from 'lucide-react';
+import { Plus, Trash2, Edit2, Upload, X } from 'lucide-react';
+import AdminSidebar from './AdminSidebar';
 
 const AdminDashboard = ({ user, onLogout }) => {
   const { products, categories, fetchData } = useStore();
@@ -162,39 +163,84 @@ const AdminDashboard = ({ user, onLogout }) => {
   };
 
   return (
-    <div className="min-h-screen bg-brand-light dark:bg-brand-dark pb-20">
-      {/* Admin Nav - Responsive */}
-      <nav className="border-b border-brand-dark/5 dark:border-white/5 bg-white/50 dark:bg-black/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <h1 className="font-serif text-lg sm:text-xl tracking-tight">Artisan Portal</h1>
-          <div className="flex items-center space-x-3 sm:space-x-6 text-xs sm:text-sm font-light">
-            <button onClick={() => setActiveTab('products')} className={`transition-colors ${activeTab === 'products' ? 'text-brand-accent' : ''}`}>Gallery</button>
-            <button onClick={() => setActiveTab('categories')} className={`transition-colors ${activeTab === 'categories' ? 'text-brand-accent' : ''}`}>Categories</button>
-            <button onClick={onLogout} className="text-red-500/80 hover:text-red-500"><LogOut size={16}/></button>
-          </div>
-        </div>
-      </nav>
+    <div className="flex min-h-screen bg-brand-light dark:bg-brand-dark">
+      {/* Sidebar */}
+      <AdminSidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onLogout={onLogout}
+        isOffline={user.is_offline}
+      />
 
-      {user.is_offline && (
-        <div className="bg-brand-accent text-white py-2 px-4 text-center text-[10px] uppercase tracking-[0.3em] font-bold">
-          Emergency Offline Mode — Changes will not be synced to the live database
-        </div>
-      )}
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col w-full">
+        {/* Top spacing for mobile (to avoid hamburger overlap) */}
+        <div className="md:hidden h-20" />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-8 space-y-6 sm:space-y-0 text-center sm:text-left">
-          <div>
+        {/* Offline Banner */}
+        {user.is_offline && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-brand-accent text-white py-3 px-4 text-center text-[10px] uppercase tracking-[0.3em] font-bold shadow-lg"
+          >
+            ⚠️ Emergency Offline Mode — Changes will not be synced to the live database
+          </motion.div>
+        )}
+
+        <main className="flex-1 px-4 sm:px-6 md:px-8 py-8 sm:py-12">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-8 sm:mb-12 space-y-6 sm:space-y-0 text-center sm:text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
             <h2 className="text-3xl sm:text-4xl font-serif capitalize">Manage {activeTab}</h2>
-            <p className="text-brand-dark/50 dark:text-brand-light/50 font-light mt-1 text-sm">Curate your collection and categories</p>
-          </div>
-          <div className="flex flex-wrap justify-center sm:justify-end gap-3">
-            <button onClick={handleSeedDefaults} className="px-4 py-2 rounded-full text-xs border border-brand-dark/10 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Restore Originals</button>
-            <button onClick={() => { setEditingId(null); setNewItem({name:'', price:'', description:'', category_id:'', new_category_name:'', image_url:''}); setIsAdding(true); }} className="flex items-center space-x-2 bg-brand-dark text-brand-light dark:bg-brand-light dark:text-brand-dark px-5 py-2 rounded-full text-xs hover:scale-105 transition-transform"><Plus size={16}/><span>Add {activeTab.slice(0, -1)}</span></button>
-          </div>
+            <p className="text-brand-dark/50 dark:text-brand-light/50 font-light mt-2 text-sm">Curate your collection and categories</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="flex flex-wrap justify-center sm:justify-end gap-3"
+          >
+            <button
+              onClick={handleSeedDefaults}
+              className="px-4 py-2 rounded-full text-xs border border-brand-dark/10 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors hover:shadow-md"
+            >
+              Restore Originals
+            </button>
+            <motion.button
+              onClick={() => {
+                setEditingId(null);
+                setNewItem({
+                  name: '',
+                  price: '',
+                  description: '',
+                  category_id: '',
+                  new_category_name: '',
+                  image_url: ''
+                });
+                setIsAdding(true);
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center space-x-2 bg-brand-dark text-brand-light dark:bg-brand-light dark:text-brand-dark px-5 py-2 rounded-full text-xs font-medium hover:shadow-lg transition-all"
+            >
+              <Plus size={16} />
+              <span>Add {activeTab.slice(0, -1)}</span>
+            </motion.button>
+          </motion.div>
         </div>
 
         {/* Content List - Responsive Cards */}
-        <div className="space-y-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="space-y-4"
+        >
           {(activeTab === 'products' ? products : categories).map(item => {
             const displayImage = item.image_url || (activeTab === 'categories' ? products.find(p => p.category_id === item.id)?.image_url : null);
             
@@ -248,12 +294,11 @@ const AdminDashboard = ({ user, onLogout }) => {
               </div>
             );
           })}
-        </div>
-      </main>
+        </motion.div>
 
-      {/* Responsive Modal */}
-      {isAdding && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        {/* Responsive Modal */}
+        {isAdding && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -369,7 +414,9 @@ const AdminDashboard = ({ user, onLogout }) => {
             </form>
           </motion.div>
         </div>
-      )}
+        )}
+        </main>
+      </div>
     </div>
   );
 };
