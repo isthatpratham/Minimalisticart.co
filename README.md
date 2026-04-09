@@ -1,6 +1,6 @@
 # Minimalisticart.co
 
-A modern, minimalist artisan product management platform featuring an intuitive admin dashboard and responsive product showcase.
+A modern & minimalist artisan product management platform featuring an intuitive admin dashboard and responsive product showcase.
 
 ## Overview
 
